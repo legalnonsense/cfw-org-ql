@@ -2,8 +2,21 @@
 
 ;; replace calfw functions with org-ql
 
+(require 'calfw)
+
 (defcustom cfw-org-ql-query (rx "<" (= 4 digit) "-" (= 2 digit) "-" (= 2 digit) " " upper (= 2 lower) (optional (= 2 digit) ":" (= 2 digit) (optional "-" (= 2 digit) ":" (= 2 digit)))) "rx query")
 
+
+(defun jrf/open-calfw ()
+  (interactive)
+  (setq cfw:render-line-breaker 'cfw:render-line-breaker-wordwrap)
+  (tab-bar-new-tab 1)
+  (cfw:open-calendar-buffer
+   :date (mapcar #'string-to-number
+                 (s-split " " (ts-format "%m 1 %Y" (ts-now))))
+   :contents-sources
+   (list (make-cfw:source
+          :name "" :data 'jrf/calfw-make-data))))
 
 (defun jrf/calfw--convert-date-string (date &optional time)
   "Converts an org date string to '(d m yyyy)"
