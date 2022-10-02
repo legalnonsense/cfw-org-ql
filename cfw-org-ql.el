@@ -3,9 +3,36 @@
 ;; replace calfw functions with org-ql
 
 (require 'calfw)
-
-(defcustom cfw-org-ql-query (rx "<" (= 4 digit) "-" (= 2 digit) "-" (= 2 digit) " " upper (= 2 lower) (optional (= 2 digit) ":" (= 2 digit) (optional "-" (= 2 digit) ":" (= 2 digit)))) "rx query")
-
+;; TODO FIX THIS TO ALLOW FOR REPEATERS AND MAKE SURE IT MATCHES ALL TYPES OF TIMESTAMPS
+;; 
+(defcustom cfw-org-ql-query
+  (rx "<"
+      (= 4 digit)
+      "-"
+      (= 2 digit)
+      "-"
+      (= 2 digit)
+      (optional (seq " "
+		     upper
+		     (= 2 lower)))
+      (optional (seq " "
+		     (= 2 digit)
+		     ":"
+		     (= 2 digit)			
+		     (optional (seq "-"
+				    (= 2 digit)
+				    ":"
+				    (= 2 digit)))))
+      (optional (seq " "
+		     (or ".+"
+			 "--"
+			 "-"
+			 "+"
+			 "++")
+		     digit
+		     letter))
+      ">")
+  "rx query")
 
 (defun jrf/open-calfw ()
   (interactive)
