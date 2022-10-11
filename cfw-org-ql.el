@@ -89,7 +89,15 @@
                    "TODO" todo
                    "ALLTAGS" alltags)
            (org-entry-properties)))
-    (let (start-date start-time end-date end-time title location description)
+    (let (start-date
+	  start-time
+	  end-date
+	  end-time
+	  title
+	  location
+	  description
+	  marker)
+      (setq marker (point-marker))
       (cl-flet ((timestamp-range? ()
                                   (when timestamp
                                     (if (not (s-match "--" timestamp))
@@ -113,13 +121,17 @@
 	;; (debug nil start-date start-time end-date end-time title)
 	(make-cfw:event :title (progn
 				 (add-face-text-property 0 (length todo) 'org-todo nil todo)
-				 (concat
-				  (jrf/calfw--convert-time-to-string start-time)
-				  " "
-				  todo
-				  " "
-				  title
-				  " (" category ")"))
+				 (propertize 
+				  (concat
+				   (jrf/calfw--convert-time-to-string start-time)
+				   " "
+				   todo
+				   " "
+				   title
+				   " (" category ")")
+				  'marker
+				  marker
+				  ))
 			:start-date start-date
 			:start-time start-time
 			:end-date end-date
