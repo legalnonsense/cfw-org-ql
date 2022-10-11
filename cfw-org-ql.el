@@ -137,4 +137,13 @@
 			:end-date end-date
 			:end-time end-time)))))
 
+(defun cfw-org-ql-goto-entry-in-org-file ()
+  "goto entry"
+  (interactive)
+  (when-let ((marker (get-text-property (point) 'marker)))
+    (org-goto-marker-or-bmk marker)
+    (org-show-entry)))
+
+
+(define-key cfw:calendar-mode-map (kbd "RET") #'cfw-org-ql-goto-entry-in-org-file)
 (provide 'cfw-org-ql)
