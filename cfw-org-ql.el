@@ -66,10 +66,9 @@
   (setq org-ql-cache (make-hash-table :weakness 'key))
   (cl-loop for event in (org-ql-select (org-agenda-files)
 			  `(and (regexp ,cfw-org-ql-query)
-				(not
-				 (todo "CANCELLED")
-				 (todo "DONE")
-				 ))
+				(not (or (todo "CANCELLED")
+					 (todo "DONE")))
+				 )
 			  ;; '(and (or (deadline)
 			  ;; 	    (ts-active))
 			  ;; 	(not (or (todo "DONE")
