@@ -354,6 +354,7 @@ UPPER-LIMIT and LOWER-LIMIT are the bounds of the region searched."
 								     :end-date end-date
 								     :end-time end-time))))
 			    ((and (eq type 'timestamp-range) timestamp-range)
+			     (setq title headline)
 			     (cl-loop for tt in timestamp-range
 				      collect (progn (setq start-date (jrf/calfw--convert-date-string (car tt)))
 						    (setq start-time (jrf/calfw--convert-date-string (car tt) 'time))
